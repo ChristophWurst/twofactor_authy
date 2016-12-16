@@ -1,0 +1,18 @@
+ core/Middleware/TwoFactorMiddleware.php | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/core/Middleware/TwoFactorMiddleware.php b/core/Middleware/TwoFactorMiddleware.php
+index c4c3b72..2e41403 100644
+--- a/core/Middleware/TwoFactorMiddleware.php
++++ b/core/Middleware/TwoFactorMiddleware.php
+@@ -84,6 +84,10 @@ class TwoFactorMiddleware extends Middleware {
+ 			// Don't block public pages
+ 			return;
+ 		}
++		if ($this->reflector->hasAnnotation('NoTwoFactorRequired')) {
++			// Allow 2FA specific pages
++			return;
++		}
+ 
+ 		if ($controller instanceof LoginController && $methodName === 'logout') {
+ 			// Don't block the logout page, to allow canceling the 2FA
